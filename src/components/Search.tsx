@@ -4,16 +4,17 @@ import { css } from "@linaria/core";
 import { TextField, InputAdornment } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 
-const search = css`
+const searchRoot = css`
+  width: 100%;
+  padding-top: 50px;
+`;
+
+const searchStyle = css`
   background: #fdfcfc;
   box-shadow: 5px 5px 80px rgba(212, 173, 134, 0.122623);
   border-radius: 10px;
   padding: 17px 0;
   height: 46px;
-
-  @media (min-width: 768px) {
-    max-width: 400px;
-  }
 `;
 
 const icon = css`
@@ -25,12 +26,20 @@ const icon = css`
   }
 `;
 
-const Search = () => {
+interface SearchProps {
+  search: string | null;
+  setSearch: (search: string) => void;
+}
+
+const Search: React.FC<SearchProps> = ({ search, setSearch }) => {
   return (
     <TextField
+      value={search}
+      onChange={({ target: { value } }) => setSearch(value)}
       type="search"
+      classes={{ root: searchRoot }}
       InputProps={{
-        className: search,
+        className: searchStyle,
         disableUnderline: true,
         startAdornment: (
           <InputAdornment position="start">
@@ -38,6 +47,7 @@ const Search = () => {
           </InputAdornment>
         ),
       }}
+      placeholder="Search book"
     />
   );
 };

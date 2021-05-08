@@ -1,7 +1,10 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { css } from "@linaria/core";
 
-const wrapperStyle = css``;
+const wrapperStyle = css`
+  cursor: pointer;
+`;
 
 const imageStyle = css`
   max-width: 105px;
@@ -27,17 +30,33 @@ const authorStyle = css`
 `;
 
 interface SingleBookProps {
+  id: string;
+  isAppBook?: boolean;
   image: string;
   title: string;
   authors: string[];
 }
 
-const SingleBook: React.FC<SingleBookProps> = ({ image, title, authors }) => (
-  <div className={wrapperStyle}>
-    <img src={image} alt={title} className={imageStyle} />
-    <h2 className={titleStyle}>{title}</h2>
-    <p className={authorStyle}>by {authors.toString()}</p>
-  </div>
-);
+const SingleBook: React.FC<SingleBookProps> = ({
+  id,
+  isAppBook,
+  image,
+  title,
+  authors,
+}) => {
+  const history = useHistory();
+  return (
+    <div
+      className={wrapperStyle}
+      onClick={() =>
+        history.push(isAppBook ? `/details/${id}` : `/details/google/${id}`)
+      }
+    >
+      <img src={image} alt={title} className={imageStyle} />
+      <h2 className={titleStyle}>{title}</h2>
+      {authors && <p className={authorStyle}>by {authors.toString()}</p>}
+    </div>
+  );
+};
 
 export default SingleBook;
